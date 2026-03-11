@@ -3,6 +3,7 @@ import Dashboard from "../screens/Dashboard";
 import Profile from "../screens/Profile";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { RootTabParamList } from "./types";
+import { colors } from "../theme/colors";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -27,6 +28,7 @@ export default function TabNavigator() {
             />
           );
         },
+        tabBarActiveTintColor: colors.primary,
       })}
     >
       <Tab.Screen

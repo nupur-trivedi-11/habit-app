@@ -7,7 +7,6 @@ export const addHabit = async (habit: Habit) => {
   const habits = await getHabits();
 
   const updated = [...habits, habit];
-
   await AsyncStorage.setItem(KEY, JSON.stringify(updated));
 
   return updated;

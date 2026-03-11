@@ -13,7 +13,7 @@ export default function RootNavigator() {
         <Stack.Screen
           name="Tabs"
           component={TabNavigator}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: "Dashboard" }}
         />
 
         <Stack.Screen

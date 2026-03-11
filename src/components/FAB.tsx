@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { colors } from "../theme/colors";
 
 export default function FAB({ onPress }: { onPress: () => void }) {
   return (
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 30,
     right: 20,
-    backgroundColor: "#6200ee",
+    backgroundColor: colors.accent,
     padding: 16,
     borderRadius: 30,
   },

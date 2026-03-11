@@ -12,6 +12,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { addHabit } from "../storage/habitStorage";
 import { useNavigation } from "@react-navigation/native";
 import { Habit } from "../types/types";
+import { theme } from "../theme";
+
+const { colors, spacing, typography } = theme;
 
 export default function AddHabit() {
   const navigation = useNavigation<any>();
@@ -76,6 +79,7 @@ export default function AddHabit() {
         <View style={styles.row}>
           <input
             type="date"
+            min={new Date().toISOString().split("T")[0]}
             onChange={(e) => {
               const newDate = new Date(date);
               const value = new Date(e.target.value);
@@ -100,15 +104,21 @@ export default function AddHabit() {
       ) : (
         <View style={styles.row}>
           <Pressable
-            style={styles.pickerButton}
-            onPress={() => setShowDatePicker(true)}
+            style={styles.input}
+            onPress={() => {
+              setShowTimePicker(false);
+              setShowDatePicker(true);
+            }}
           >
             <Text>{date.toDateString()}</Text>
           </Pressable>
 
           <Pressable
-            style={styles.pickerButton}
-            onPress={() => setShowTimePicker(true)}
+            style={styles.input}
+            onPress={() => {
+              setShowDatePicker(false);
+              setShowTimePicker(true);
+            }}
           >
             <Text>
               {date.toLocaleTimeString([], {
@@ -121,11 +131,23 @@ export default function AddHabit() {
       )}
 
       {showDatePicker && (
-        <DateTimePicker value={date} mode="date" onChange={onDateChange} />
+        <DateTimePicker
+          value={date}
+          minimumDate={new Date()}
+          mode="date"
+          display={Platform.OS === "ios" ? "spinner" : "default"}
+          onChange={onDateChange}
+        />
       )}
 
       {showTimePicker && (
-        <DateTimePicker value={date} mode="time" onChange={onTimeChange} />
+        <DateTimePicker
+          value={date}
+          minimumDate={new Date()}
+          mode="time"
+          display={Platform.OS === "ios" ? "spinner" : "default"}
+          onChange={onTimeChange}
+        />
       )}
 
       <Pressable style={styles.button} onPress={handleAddHabit}>
@@ -138,47 +160,40 @@ export default function AddHabit() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#fff",
+    padding: spacing.lg,
+    backgroundColor: colors.background,
   },
 
   label: {
-    fontSize: 16,
-    marginBottom: 8,
+    ...typography.label,
+    marginBottom: spacing.sm,
+    color: colors.textPrimary,
   },
 
   input: {
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: colors.border,
     borderRadius: 8,
-    padding: 12,
-    marginBottom: 20,
+    padding: spacing.md,
+    marginBottom: spacing.lg,
+    backgroundColor: colors.surface,
   },
 
   row: {
     flexDirection: "row",
-    gap: 10,
-    marginBottom: 30,
-  },
-
-  pickerButton: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 12,
-    borderRadius: 8,
-    alignItems: "center",
+    gap: spacing.sm,
+    marginBottom: spacing.xl,
   },
 
   button: {
-    backgroundColor: "#6200ee",
-    padding: 14,
+    backgroundColor: colors.primary,
+    padding: spacing.md,
     borderRadius: 8,
     alignItems: "center",
   },
 
   buttonText: {
-    color: "white",
-    fontWeight: "600",
+    ...typography.button,
+    color: colors.surface,
   },
 });
