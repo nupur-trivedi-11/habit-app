@@ -1,17 +1,17 @@
 export const colors = {
-  primary: "#4F46E5",
-  primaryLight: "#E0E7FF",
+  primary: "#6366F1",        // soft indigo
+  primaryLight: "#EEF2FF",
 
-  accent: "#14B8A6",
+  accent: "#A78BFA",         // soft purple accent
 
-  success: "#22C55E",
-  danger: "#EF4444",
+  success: "#34D399",        // pastel green
+  danger: "#F87171",         // soft red
 
-  background: "#F9FAFB",
-  surface: "#FFFFFF",
+  background: "#F3F4F6",     // main screen background
+  surface: "#FFFFFF",        // cards
 
   textPrimary: "#111827",
   textSecondary: "#6B7280",
 
-  border: "#dddddd",
+  border: "#E5E7EB",
 };
