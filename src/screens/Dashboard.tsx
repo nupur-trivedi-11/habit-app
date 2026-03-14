@@ -1,42 +1,54 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Habit } from "../types/types";
 import HabitItem from "../components/HabitItem";
 import FAB from "../components/FAB";
-import { useNavigation } from "@react-navigation/native";
-
-const initialHabits: Habit[] = [
-  { id: "1", name: "Drink Water", completed: false },
-  { id: "2", name: "Morning Walk", completed: true },
-  { id: "3", name: "Read 20 Pages", completed: false },
-  { id: "4", name: "Meditation", completed: true },
-];
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { deleteHabit, getHabits } from "../storage/habitStorage";
 
 const Dashboard: React.FC = () => {
   const insets = useSafeAreaInsets();
-  const [habits, setHabits] = useState<Habit[]>(initialHabits);
-
-  const completedCount = useMemo(
-    () => habits.filter((h) => h.completed).length,
-    [habits],
-  );
   const navigation = useNavigation<any>();
+
+  const [habits, setHabits] = useState<Habit[]>([]);
+
+useFocusEffect(
+  useCallback(() => {
+    const fetchHabits = async () => {
+      const data = await getHabits();
+      setHabits(data || []);
+    };
+
+    fetchHabits();
+  }, [])
+);
+
+  const completedCount = useMemo(() => {
+    return habits.filter((h) => h.completed).length;
+  }, [habits]);
 
   const remainingCount = habits.length - completedCount;
 
   const toggleHabit = (id: string) => {
     setHabits((prev) =>
-      prev.map((h) => (h.id === id ? { ...h, completed: !h.completed } : h)),
+      prev.map((h) =>
+        h.id === id ? { ...h, completed: !h.completed } : h
+      )
     );
   };
 
+  const handleDeleteHabit = async (id: string) => {
+  const updatedHabits = await deleteHabit(id);
+  setHabits(updatedHabits);
+};
+
   return (
-    <View style={[styles.container, { paddingTop: insets.top + 8 }]}>
+    <View style={[styles.container, { paddingTop: insets.top + 8  }]}>
       {/* HEADER */}
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hi Dhruv 👋</Text>
-        <Text style={styles.subTitle}>Let’s build healthy habits today</Text>
+        <Text style={styles.greeting}>Hi Dhruv,</Text>
+        <Text style={styles.subTitle}>Grow with small step</Text>
       </View>
 
       {/* SUMMARY */}
@@ -53,18 +65,23 @@ const Dashboard: React.FC = () => {
       </View>
 
       {/* LIST HEADER */}
-      <Text style={styles.sectionTitle}>Today’s Habits</Text>
+      <Text style={styles.sectionTitle}>All Habits</Text>
 
       {/* HABIT LIST */}
       <FlatList
         data={habits}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <HabitItem item={item} onToggle={toggleHabit} />
+            <HabitItem
+            item={item}
+            onToggle={toggleHabit}
+            onDelete={handleDeleteHabit}
+            />
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContent}
       />
+
       <FAB onPress={() => navigation.navigate("AddHabit")} />
     </View>
   );
