@@ -1,20 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 
 export default function Profile() {
-  const insets = useSafeAreaInsets();
-
   return (
     <ScrollView
-      style={[styles.container, { paddingTop: 10}]}
+      style={[styles.container, { paddingTop: 10 }]}
       contentContainerStyle={{ paddingBottom: 40 }}
     >
       {/* PROFILE HEADER */}
@@ -47,8 +37,6 @@ export default function Profile() {
           <Text style={styles.statLabel}>Streak</Text>
         </View>
       </View>
-
-     
     </ScrollView>
   );
 }
@@ -110,28 +98,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#6B7280",
     marginTop: 4,
-  },
-
-  section: {
-    backgroundColor: "#fff",
-    borderRadius: 14,
-    paddingVertical: 10,
-  },
-
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 10,
-    paddingHorizontal: 16,
-  },
-
-  item: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-  },
-
-  itemText: {
-    fontSize: 15,
-    color: "#111827",
   },
 });

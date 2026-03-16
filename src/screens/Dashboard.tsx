@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Habit } from "../types/types";
@@ -13,16 +13,16 @@ const Dashboard: React.FC = () => {
 
   const [habits, setHabits] = useState<Habit[]>([]);
 
-useFocusEffect(
-  useCallback(() => {
-    const fetchHabits = async () => {
-      const data = await getHabits();
-      setHabits(data || []);
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchHabits = async () => {
+        const data = await getHabits();
+        setHabits(data || []);
+      };
 
-    fetchHabits();
-  }, [])
-);
+      fetchHabits();
+    }, []),
+  );
 
   const completedCount = useMemo(() => {
     return habits.filter((h) => h.completed).length;
@@ -32,19 +32,17 @@ useFocusEffect(
 
   const toggleHabit = (id: string) => {
     setHabits((prev) =>
-      prev.map((h) =>
-        h.id === id ? { ...h, completed: !h.completed } : h
-      )
+      prev.map((h) => (h.id === id ? { ...h, completed: !h.completed } : h)),
     );
   };
 
   const handleDeleteHabit = async (id: string) => {
-  const updatedHabits = await deleteHabit(id);
-  setHabits(updatedHabits);
-};
+    const updatedHabits = await deleteHabit(id);
+    setHabits(updatedHabits);
+  };
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top + 8  }]}>
+    <View style={[styles.container, { paddingTop: insets.top + 8 }]}>
       {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.greeting}>Hi Dhruv,</Text>
@@ -72,11 +70,11 @@ useFocusEffect(
         data={habits}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-            <HabitItem
+          <HabitItem
             item={item}
             onToggle={toggleHabit}
             onDelete={handleDeleteHabit}
-            />
+          />
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContent}

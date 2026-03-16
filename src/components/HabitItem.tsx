@@ -26,7 +26,7 @@ const HabitItem: React.FC<Props> = ({ item, onToggle, onDelete }) => {
         style={styles.deleteBtn}
         onPress={() => onDelete(item.id)}
       >
-       <MaterialCommunityIcons name="trash-can" size={24} color="black" />
+        <MaterialCommunityIcons name="trash-can" size={24} color="black" />
       </TouchableOpacity>
     </View>
   );
@@ -71,8 +71,5 @@ const styles = StyleSheet.create({
   },
   deleteBtn: {
     padding: 6,
-  },
-  deleteText: {
-    fontSize: 18,
   },
 });
